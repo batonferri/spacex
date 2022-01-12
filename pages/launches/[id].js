@@ -27,12 +27,12 @@ const LaunchPage = () => {
   }
 
   const launchDetails = data.launchesPast.filter((launch) => launch.id === id);
-  console.log(launchDetails);
 
   return (
     <>
       {launchDetails.map((launch) => (
         <Stack
+          key={launch.id}
           minH={"100vh"}
           maxH={"100vh"}
           direction={{ base: "column", md: "row" }}
@@ -77,32 +77,28 @@ const LaunchPage = () => {
               <Stack direction={{ base: "column", md: "row" }} spacing={4}>
                 {launch.links.video_link && (
                   <Link href={launch.links.video_link}>
-                    <a>
-                      <Button
-                        rounded={"full"}
-                        bg={"blue.400"}
-                        color={"white"}
-                        _hover={{
-                          bg: "blue.500",
-                        }}
-                        spacing="40px"
-                        leftIcon={<ViewIcon w={6} h={6} color="gray.200" />}
-                      >
-                        Youtube
-                      </Button>
-                    </a>
+                    <Button
+                      rounded={"full"}
+                      bg={"blue.400"}
+                      color={"white"}
+                      _hover={{
+                        bg: "blue.500",
+                      }}
+                      spacing="40px"
+                      leftIcon={<ViewIcon w={6} h={6} color="gray.200" />}
+                    >
+                      Youtube
+                    </Button>
                   </Link>
                 )}
                 {launch.links.video_link && (
                   <Link href={launch.links.article_link}>
-                    <a>
-                      <Button
-                        rounded={"full"}
-                        leftIcon={<LinkIcon w={6} h={6} color="blue.400" />}
-                      >
-                        Article
-                      </Button>
-                    </a>
+                    <Button
+                      rounded={"full"}
+                      leftIcon={<LinkIcon w={6} h={6} color="blue.400" />}
+                    >
+                      Article
+                    </Button>
                   </Link>
                 )}
               </Stack>
