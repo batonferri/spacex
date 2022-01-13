@@ -26,8 +26,8 @@ export default function Home() {
         <meta name="description" content="SpaceX launches" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Box mb={4} flexDirection="column" align="center" justify="center" py={8}>
-        <Heading as="h1" size="2xl" mb={8}>
+      <Box mb={4} flexDirection="column" py={8}>
+        <Heading as="h1" size="2xl" align="center" justify="center" mb={8}>
           SpaceX Launches{" "}
         </Heading>
         <LaunchesList launches={launches} />

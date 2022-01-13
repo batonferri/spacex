@@ -11,7 +11,9 @@ export const GET_LAUNCHES = gql`
       }
       links {
         flickr_images
+        mission_patch
       }
+      details
     }
   }
 `;
