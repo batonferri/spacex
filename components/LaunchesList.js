@@ -20,7 +20,6 @@ const LaunchesList = ({ launches }) => {
             <Box
               maxW={"445px"}
               w={"full"}
-              bg={useColorModeValue("white", "gray.900")}
               boxShadow={"2xl"}
               rounded={"md"}
               p={6}
@@ -34,11 +33,14 @@ const LaunchesList = ({ launches }) => {
                 mb={6}
                 pos={"relative"}
               >
-                <Image src={launch.links.flickr_images[0]} layout={"fill"} />
+                <Image
+                  src={launch.links.flickr_images[0]}
+                  objectFit="cover"
+                  layout={"fill"}
+                />
               </Box>
               <Stack>
                 <Heading
-                  color={useColorModeValue("gray.700", "white")}
                   fontSize={"2xl"}
                   fontFamily={"body"}
                   align="center"
