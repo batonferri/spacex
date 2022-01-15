@@ -19,8 +19,8 @@ export const GET_LAUNCHES = gql`
 `;
 
 export const GET_ROCKET_DETAILS = gql`
-  {
-    launchesPast {
+  query GetLaunchById($id: ID!) {
+    launch(id: $id) {
       id
       mission_name
       links {

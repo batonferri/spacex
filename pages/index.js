@@ -1,7 +1,6 @@
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import { useQuery } from "@apollo/client";
-import { Heading, Box, Flex } from "@chakra-ui/react";
+import { Heading, Box, Flex, SimpleGrid } from "@chakra-ui/react";
 import LaunchesList from "../components/LaunchesList";
 
 import { GET_LAUNCHES } from "../graphql/queries";
@@ -16,7 +15,8 @@ export default function Home() {
   }
 
   const launches = data.launchesPast.filter(
-    (launch) => launch.links.flickr_images.length > 0
+    (launch) =>
+      launch.links.flickr_images.length > 0 && launch.links.mission_patch
   );
 
   return (
@@ -30,43 +30,36 @@ export default function Home() {
         <Heading as="h1" size="2xl" align="center" justify="center" mb={8}>
           SpaceX Launches{" "}
         </Heading>
-        <LaunchesList launches={launches} />
+        <SimpleGrid columns={[1, 2, 3]} spacing="40px">
+          {launches.slice(0, 6).map((launch) => (
+            <LaunchesList
+              key={launch.id}
+              id={launch.id}
+              image={launch.links.flickr_images[0]}
+              name={launch.mission_name}
+              details={launch.details}
+              avatar={launch.links.mission_patch}
+              siteName={launch.launch_site.site_name_long}
+              date={launch.launch_date_local}
+              load
+            />
+          ))}
+        </SimpleGrid>
+        <SimpleGrid columns={[1, 2, 3]} spacing="40px">
+          {launches.slice(6, launches.length).map((launch) => (
+            <LaunchesList
+              key={launch.id}
+              id={launch.id}
+              image={launch.links.flickr_images[0]}
+              name={launch.mission_name}
+              details={launch.details}
+              avatar={launch.links.mission_patch}
+              siteName={launch.launch_site.site_name_long}
+              date={launch.launch_date_local}
+            />
+          ))}
+        </SimpleGrid>
       </Box>
     </Flex>
   );
 }
-
-// export async function getStaticProps(context) {
-//   const client = new ApolloClient({
-//     uri: "https://api.spacex.land/graphql/",
-//     cache: new InMemoryCache(),
-//   });
-
-//   const { data } = await client.query({
-//     query: gql`
-//       query GetLaunches {
-//         launchesPast(limit: 16) {
-//           id
-//           mission_name
-//           launch_date_local
-//           launch_site {
-//             site_name_long
-//           }
-//           links {
-//             flickr_images
-//           }
-//         }
-//       }
-//     `,
-//   });
-
-//   const launches = data.launchesPast.filter(
-//     (launch) => launch.links.flickr_images.length > 0
-//   );
-
-//   return {
-//     props: {
-//       launches: launches,
-//     },
-//   };
-// }
