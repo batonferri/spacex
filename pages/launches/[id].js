@@ -2,15 +2,7 @@ import { useRouter } from "next/router";
 import { GET_ROCKET_DETAILS } from "../../graphql/queries";
 import { useQuery } from "@apollo/client";
 
-import {
-  Flex,
-  Heading,
-  Stack,
-  Text,
-  Image,
-  Box,
-  Button,
-} from "@chakra-ui/react";
+import { Flex, Heading, Stack, Text, Image, Button } from "@chakra-ui/react";
 import { LinkIcon, ViewIcon } from "@chakra-ui/icons";
 import Link from "next/link";
 
@@ -18,15 +10,16 @@ const LaunchPage = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  const { loading, error, data } = useQuery(GET_ROCKET_DETAILS);
+  const { loading, error, data } = useQuery(GET_ROCKET_DETAILS, {
+    variables: { id },
+  });
+
   if (loading) {
     return "loading";
   }
   if (error) {
     return "error";
   }
-
-  const launchDetails = data.launchesPast.filter((launch) => launch.id === id);
 
   return (
     <>
@@ -37,7 +30,7 @@ const LaunchPage = () => {
       >
         <Flex flex={1}>
           <Image
-            src={launchDetails[0].links.flickr_images[0]}
+            src={data.launch.links.flickr_images[0]}
             alt={"Rocket_Image"}
             objectFit={"cover"}
           />
@@ -58,23 +51,23 @@ const LaunchPage = () => {
                   zIndex: -1,
                 }}
               >
-                {launchDetails[0].mission_name}
+                {data.launch.mission_name}
               </Text>
               <br />{" "}
               <Text color={"blue.400"} as={"span"}>
-                Name: {launchDetails[0].rocket.rocket_name}
+                Name: {data.launch.rocket.rocket_name}
               </Text>{" "}
               <br />
               <Text color={"blue.400"} as={"span"}>
-                Type: {launchDetails[0].rocket.rocket_type}
+                Type: {data.launch.rocket.rocket_type}
               </Text>{" "}
             </Heading>
             <Text fontSize={{ base: "md", lg: "lg" }} color={"gray.500"}>
-              {launchDetails[0].rocket.rocket.description}
+              {data.launch.rocket.rocket.description}
             </Text>
             <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-              {launchDetails[0].links.video_link && (
-                <Link href={launchDetails[0].links.video_link}>
+              {data.launch.links.video_link && (
+                <Link href={data.launch.links.video_link}>
                   <Button
                     rounded={"full"}
                     bg={"blue.400"}
@@ -89,8 +82,8 @@ const LaunchPage = () => {
                   </Button>
                 </Link>
               )}
-              {launchDetails[0].links.article_link && (
-                <Link href={launchDetails[0].links.article_link}>
+              {data.launch.links.article_link && (
+                <Link href={data.launch.links.article_link}>
                   <Button
                     rounded={"full"}
                     leftIcon={<LinkIcon w={6} h={6} color="blue.400" />}
